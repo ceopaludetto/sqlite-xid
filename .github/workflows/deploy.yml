@@ -17,7 +17,6 @@ jobs:
 
     strategy:
       matrix:
-        # You can add more, for any target you'd like!
         include:
           - build: linux
             os: ubuntu-latest
@@ -51,4 +50,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: xid-${{ env.VERSION }}-${{ matrix.target }} 
-          path: target/${{ matrix.target }}/release/libxid.[so|dylib|dll]
+          path: | 
+            target/${{ matrix.target }}/release/libxid.so
+            target/${{ matrix.target }}/release/libxid.dll
+            target/${{ matrix.target }}/release/libxid.dylib
+
