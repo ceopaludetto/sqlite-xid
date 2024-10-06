@@ -24,12 +24,6 @@ jobs:
             target: x86_64-unknown-linux-gnu
             binary: libxid.so
 
-          # Linux ARM64
-          - build: linux (aarch64)
-            os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            binary: libxid.so
-
           # MacOS x86_64
           - build: macos (x86_64)
             os: macos-latest
@@ -74,7 +68,6 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/tags/v*'
 
     steps:
       - name: Checkout Repository
@@ -85,10 +78,16 @@ jobs:
         with:
           path: ./binaries
 
+      - name: Zip Artifacts
+        run: |
+          for folder in binaries/*; do
+            zip -rj "$folder.zip" "$folder"
+          done
+
       - name: Release
         uses: softprops/action-gh-release@v2 
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ./binaries/*
+          files: ./binaries/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
