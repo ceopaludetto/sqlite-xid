@@ -1,0 +1,12 @@
+[package]
+name = "sqlite-xid"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+xid = "1.1.1"
+sqlite-loadable = "0.0.5"
+
+[lib]
+crate-type = ["cdylib"]
+name = "xid"
